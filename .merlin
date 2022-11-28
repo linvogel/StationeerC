@@ -1,0 +1,5 @@
+S src
+S bin/generated
+
+B bin
+B bin/src
