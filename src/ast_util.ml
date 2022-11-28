@@ -55,10 +55,18 @@ let string_of_global (g:global) =
   match g with
   | Global (_, name, e) -> "let " ^ (string_of_ident name) ^ " = " ^ (string_of_expr e) ^ ";"
 
+let string_of_function (f: func) =
+	match f with
+	| Function (_, name, args, blk) -> begin
+			let head = "function " ^ (string_of_ident name) ^ "(" ^ (args |> List.map string_of_ident |> String.concat ", ") ^ ") " in
+			head ^ (string_of_block blk)
+		end
+
 let string_of_program (p:program) =
   match p with
   | Program (_, defs, gbls, funcs) -> begin
       let def_str = List.map string_of_define defs |> String.concat "\n" in
       let gbl_str = List.map string_of_global gbls |> String.concat "\n" in
-	  def_str ^ "\n" ^ gbl_str
+	  let func_str = List.map string_of_function funcs |> String.concat "\n\n" in
+	  def_str ^ "\n\n" ^ gbl_str ^ "\n\n" ^ func_str
     end
